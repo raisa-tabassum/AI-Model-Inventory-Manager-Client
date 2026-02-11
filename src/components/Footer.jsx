@@ -6,19 +6,19 @@ const gitHubRepo = "https://github.com/raisa-tabassum?tab=repositories";
 const X = "https://x.com/";
 const Footer = () => {
   return (
-    <footer className="footer sm:footer-horizontal bg-[#105e63] text-neutral-content items-center p-4">
+    <footer className="footer w-full flex flex-col justify-between md:flex-row bg-[#105e63] text-neutral-content items-center p-6 gap-4">
       <aside className="grid-flow-col items-center">
         <img src={logo} className="w-10" alt="AIM Inventory" />
-        <p>
+        <p className="text-md sm:text-lg md:text-xl">
           Copyright © {new Date().getFullYear()} - All right reserved by AI
           Model Inventory Manager
         </p>
       </aside>
       <nav className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-        <a href={gitHubRepo} target="_blank" className="text-2xl">
+        <a href={gitHubRepo} target="_blank" className="text-xl md:text-2xl">
           <FaGithub />
         </a>
-        <a href={X} target="_blank" className="text-2xl">
+        <a href={X} target="_blank" className="text-xl md:text-2xl">
           <FaXTwitter />
         </a>
       </nav>

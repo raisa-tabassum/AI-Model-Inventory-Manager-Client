@@ -4,15 +4,12 @@
     light --default,
     dark --prefersdark;
 }
-.nav-link-active {
-  color: #40b9c2;
-}
 
 .btn-gradient {
   background: linear-gradient(135deg, #267a80, #40b9c2);
   color: white;
   padding: 8px 16px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   border: none;
   cursor: pointer;
@@ -22,3 +19,20 @@
   background: linear-gradient(135deg, #40b9c2, #267a80);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
+
+.text-primary {
+  color: #237c83;
+}
+
+.text-secondary {
+  color: #40b9c2;
+}
+
+.text-header {
+  color: #188f97;
+}
+
+/* swiper */
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";

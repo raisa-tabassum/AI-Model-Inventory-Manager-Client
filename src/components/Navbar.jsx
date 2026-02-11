@@ -1,15 +1,20 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import logo from "../assets/aim-inventory.png";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
+  const { user, signOutUser } = useAuth();
+  const handleSignOut = () => {
+    signOutUser().then().catch();
+  };
   const links = (
     <>
       <li>
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `text-xl font-semibold text-[#105e63] ${isActive ? "nav-link-active" : ""}`
+            `text-xl font-semibold text-primary ${isActive ? "text-secondary" : ""}`
           }
         >
           Home
@@ -19,7 +24,7 @@ const Navbar = () => {
         <NavLink
           to="/add-models"
           className={({ isActive }) =>
-            `text-xl font-semibold text-[#105e63] ${isActive ? "nav-link-active" : ""}`
+            `text-xl font-semibold text-primary ${isActive ? "text-secondary" : ""}`
           }
         >
           Add Model
@@ -29,7 +34,7 @@ const Navbar = () => {
         <NavLink
           to="/all-models"
           className={({ isActive }) =>
-            `text-xl font-semibold text-[#105e63] ${isActive ? "nav-link-active" : ""}`
+            `text-xl font-semibold text-primary ${isActive ? "text-secondary" : ""}`
           }
         >
           All Models
@@ -38,7 +43,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar mx-w-6xl bg-base-100 shadow-sm">
+    <div className="navbar sticky top-0 z-50 mx-w-6xl bg-base-100 shadow-sm rounded-lg">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -65,8 +70,8 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="text-3xl text-[#36abad] font-bold flex justify-center gap-1">
-          <img src={logo} className="w-10" alt="AIM Inventory" />
+        <a className="text-2xl md:text-3xl text-[#15bbc7] font-bold flex justify-center gap-1">
+          <img src={logo} className="w-14 md:w-10" alt="AIM Inventory" />
           AIM Inventory
         </a>
       </div>
@@ -74,7 +79,21 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn btn-gradient">Button</a>
+        {user ? (
+          <a
+            onClick={handleSignOut}
+            className="btn btn-gradient px-4 py-2 text-sm md:text-base"
+          >
+            Log Out
+          </a>
+        ) : (
+          <Link
+            to={"/auth/login"}
+            className="btn btn-gradient px-4 py-2 text-sm md:text-base"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

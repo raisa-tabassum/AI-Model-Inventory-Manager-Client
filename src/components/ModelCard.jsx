@@ -1,19 +1,19 @@
 import React from "react";
 import { Link } from "react-router";
 
-const ModelCard = ({ model }) => {
+const ModelCard = ({ model, id }) => {
   //   const { name, framework, useCase, image } = model;
   return (
     <div className="card bg-base-100 w-96 shadow-md rounded-xl">
       <figure className="h-52 overflow-hidden">
         <img
-          className="w-full h-full object-cover"
-          src={model.image}
+          className="w-full h-full p-4 rounded-3xl object-cover"
+          src={model.image || model.imageURL}
           alt={model.name}
         />
       </figure>
       <div className="card-body">
-        <h2 className="card-title text-2xl font-bold text-[#105e63]">
+        <h2 className="card-title text-2xl font-bold text-primary">
           {model.name}
         </h2>
         <p className="text-gray-600">
@@ -22,10 +22,12 @@ const ModelCard = ({ model }) => {
         </p>
         <p className="text-gray-600">
           <span className="text-gray-600 font-semibold">Use Case: </span>
-          {model.framework}
+          {model.useCase}
         </p>
         <div>
-          <Link className="btn btn-gradient w-full mt-1">View Details</Link>
+          <Link to={`/models/${id}`} className="btn btn-gradient w-full mt-1">
+            View Details
+          </Link>
         </div>
       </div>
     </div>

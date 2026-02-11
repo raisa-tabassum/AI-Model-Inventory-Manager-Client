@@ -4,6 +4,10 @@ import Home from "../Pages/Home/Home";
 import AllModels from "../Pages/AllModels/AllModels";
 import AddModels from "../Pages/AddModels/AddModels";
 import Profile from "../Pages/Profile/Profile";
+import ModelDetails from "../Pages/ModelDetails/ModelDetails";
+import Login from "../Auth/Login/Login";
+import Register from "../Auth/Register/Register";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +25,22 @@ export const router = createBrowserRouter([
       {
         path: "/add-models",
         element: <AddModels />,
+      },
+      {
+        path: "/auth/login",
+        element: <Login />,
+      },
+      {
+        path: "/auth/register",
+        element: <Register />,
+      },
+      {
+        path: "/models/:id",
+        element: (
+          <PrivateRoute>
+            <ModelDetails />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/profile",
