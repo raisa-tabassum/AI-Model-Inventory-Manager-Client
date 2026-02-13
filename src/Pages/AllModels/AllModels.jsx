@@ -9,7 +9,7 @@ const AllModels = () => {
   const axiosInstance = useAxios();
   useEffect(() => {
     axiosInstance
-      .get("/all-models")
+      .get("/models")
       .then((res) => {
         setModels(res.data);
         setLoading(false);

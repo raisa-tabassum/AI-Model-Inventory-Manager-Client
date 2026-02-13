@@ -32,7 +32,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/all-models"
+          to="/models"
           className={({ isActive }) =>
             `text-xl font-semibold text-primary ${isActive ? "text-secondary" : ""}`
           }

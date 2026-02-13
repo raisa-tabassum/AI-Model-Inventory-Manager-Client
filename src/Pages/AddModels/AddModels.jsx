@@ -25,7 +25,7 @@ const AddModels = () => {
       createdAt: new Date(),
     };
 
-    axiosInstance
+    await axiosInstance
       .post("/models", modelData)
       .then(() => {
         toast.success("AI Model added successfully");

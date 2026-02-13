@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import useAxios from "../../hooks/useAxios";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import toast from "react-hot-toast";
+import useAuth from "../../hooks/useAuth";
 
 const ModelDetails = () => {
+  const { user } = useAuth();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [model, setModel] = useState({});
   const [loading, setLoading] = useState(true);
+  const [refetch, setRefetch] = useState(false);
   const axiosInstance = useAxios();
   useEffect(() => {
     axiosInstance
@@ -19,10 +24,56 @@ const ModelDetails = () => {
         console.log(err);
         setLoading(false);
       });
-  }, [id, axiosInstance]);
+  }, [id, axiosInstance, refetch]);
 
-  if(loading){
-    return <LoadingSpinner></LoadingSpinner>
+  const isCreator = user?.email === model?.createdBy;
+
+  // console.log("User Email:", user?.email);
+  // console.log("Model createdBy:", model?.created_by);
+
+  const handlePurchase = async () => {
+    try {
+      const purchaseData = {
+        name: model.name,
+        description: model.description,
+        framework: model.framework,
+        createdBy: user.email,
+        createdAt: new Date().toLocaleDateString(),
+      };
+
+      await axiosInstance.post(`/purchase/${model._id}`, purchaseData, {
+        headers: {
+          authorization: `Bearer ${user.accessToken}`,
+        },
+      });
+      toast.success("Successfully Purchased!");
+      setModel((prev) => ({
+        ...prev,
+        purchased: (prev.purchased || 0) + 1,
+      }));
+
+      setRefetch(!refetch);
+    } catch (error) {
+      toast.error("Purchase Failed!");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await axiosInstance.delete(`/models/${model._id}`, {
+        headers: {
+          authorization: `Bearer ${user.accessToken}`,
+        },
+      });
+      toast.success("Model Deleted Successfully!");
+      navigate("/models");
+    } catch (error) {
+      toast.error("Delete Failed!");
+    }
+  };
+
+  if (loading) {
+    return <LoadingSpinner></LoadingSpinner>;
   }
   return (
     <div className="p-4 md:p-6 lg:p-8">
@@ -55,7 +106,7 @@ const ModelDetails = () => {
                 {/* Purchase */}
                 <div className="badge badge-sm md:badge-lg badge-outline text-primary border-[#267a80] font-medium">
                   Purchased:
-                  <span className="font-bold">{model.purchased}</span>
+                  <span className="font-bold">{model.purchased || 0}</span>
                 </div>
               </div>
 
@@ -72,7 +123,7 @@ const ModelDetails = () => {
 
             {/* Created By */}
             <p className="text-sm text-gray-500">
-              Created By: {model.createdBy || model?.created_by}
+              Created By: {model.createdBy}
             </p>
 
             {/* Created At */}
@@ -82,11 +133,25 @@ const ModelDetails = () => {
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-3 mt-1">
-              <Link className="btn btn-gradient">Purchase Model</Link>
-              <button className="btn btn-gradient">Edit</button>
-              <button className="btn btn-outline rounded-xl text-primary font-semibold border-gray-300 hover:border-[#267a80] hover:bg-gray-50">
-                Delete
+              <button onClick={handlePurchase} className="btn btn-gradient">
+                Purchase
               </button>
+              {isCreator && (
+                <Link
+                  to={`/update-model/${model._id}`}
+                  className="btn btn-gradient"
+                >
+                  Edit
+                </Link>
+              )}
+              {isCreator && (
+                <button
+                  onClick={handleDelete}
+                  className="btn btn-outline rounded-xl text-primary font-semibold border-gray-300 hover:border-[#267a80] hover:bg-gray-50"
+                >
+                  Delete
+                </button>
+              )}
             </div>
           </div>
         </div>
