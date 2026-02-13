@@ -47,10 +47,6 @@ export const router = createBrowserRouter([
         path: "/update-model/:id",
         element: <UpdateModel />,
       },
-      {
-        path: "/profile",
-        element: <Profile />,
-      },
     ],
   },
 ]);

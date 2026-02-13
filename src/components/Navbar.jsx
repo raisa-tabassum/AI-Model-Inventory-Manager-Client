@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router";
 import logo from "../assets/aim-inventory.png";
 import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
   const { user, signOutUser } = useAuth();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+
   const handleSignOut = () => {
     signOutUser().then().catch();
   };
@@ -78,14 +82,60 @@ const Navbar = () => {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-      <div className="navbar-end">
+      <div className="navbar-end relative">
         {user ? (
-          <a
-            onClick={handleSignOut}
-            className="btn btn-gradient px-4 py-2 text-sm md:text-base"
-          >
-            Log Out
-          </a>
+          <div className="dropdown dropdown-end">
+            <div
+              onClick={toggleDropdown}
+              className="cursor-pointer flex items-center gap-2"
+            >
+              <img
+                src={
+                  user?.photoURL ||
+                  "https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                }
+                alt={user?.displayName}
+                className="w-10 h-10 rounded-full border border-gray-300"
+              />
+            </div>
+            {dropdownOpen && (
+              <ul className="absolute right-0 mt-2 w-52 bg-base-100 shadow-lg rounded-lg p-3 space-y-2">
+                <li className="font-semibold text-primary">
+                  {user.displayName}
+                </li>
+                <li className="text-gray-500 text-sm truncate">{user.email}</li>
+                <li>
+                  <Link
+                    to="/my-models"
+                    className="btn btn-ghost w-full justify-start text-primary"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    My Models
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/purchases"
+                    className="btn btn-ghost w-full justify-start text-primary"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    Purchased Models
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setDropdownOpen(false);
+                    }}
+                    className="btn btn-gradient px-4 py-2 text-sm md:text-base w-full justify-start"
+                  >
+                    Log Out
+                  </button>
+                </li>
+              </ul>
+            )}
+          </div>
         ) : (
           <Link
             to={"/auth/login"}
