@@ -8,6 +8,7 @@ import ModelDetails from "../Pages/ModelDetails/ModelDetails";
 import Login from "../Auth/Login/Login";
 import Register from "../Auth/Register/Register";
 import PrivateRoute from "./PrivateRoute";
+import UpdateModel from "../Pages/UpdateModel/UpdateModel";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
             <ModelDetails />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/update-model/:id",
+        element: <UpdateModel />,
       },
       {
         path: "/profile",
