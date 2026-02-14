@@ -36,7 +36,7 @@ const MyModels = () => {
         My Models
       </h1>
       {models.length === 0 ? (
-        <p>You haven't added any models yet.</p>
+        <p className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 font-semibold">You haven't added any models yet.</p>
       ) : (
         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {models.map((model) => (

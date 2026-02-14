@@ -56,7 +56,7 @@ const ModelDetails = () => {
       }));
 
       setRefetch(!refetch);
-    } catch (error) {
+    } catch {
       toast.error("Purchase Failed!");
     }
   };
@@ -70,7 +70,7 @@ const ModelDetails = () => {
       });
       toast.success("Model Deleted Successfully!");
       navigate("/models");
-    } catch (error) {
+    } catch {
       toast.error("Delete Failed!");
     }
   };

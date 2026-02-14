@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import useAxios from "../../hooks/useAxios";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const AddModels = () => {
   const { user } = useAuth();
@@ -37,6 +38,7 @@ const AddModels = () => {
         setLoading(false);
       });
   };
+  if(loading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div className="min-h-screen flex items-center justify-center my-10">
       <div className="w-full max-w-2xl bg-base-100 shadow-xl rounded-2xl p-8">
@@ -116,7 +118,7 @@ const AddModels = () => {
             disabled={loading}
             className="btn w-full text-white mt-4 btn-gradient"
           >
-            {loading ? "Adding..." : "Add Model"}
+            {loading ? <LoadingSpinner></LoadingSpinner> : "Add Model"}
           </button>
         </form>
       </div>
