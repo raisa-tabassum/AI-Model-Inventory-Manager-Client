@@ -131,7 +131,7 @@ const UpdateModel = () => {
             disabled={updating}
             className="btn w-full text-white mt-4 btn-gradient"
           >
-            {updating ? "Updating..." : "Update Model"}
+            {updating ? <LoadingSpinner /> : "Update Model"}
           </button>
         </form>
       </div>

@@ -17,7 +17,7 @@ const ModelCard = ({ model, id }) => {
           {model.name}
         </h2>
         <p className="text-gray-600">
-          <span className="text-gray-600 font-semibold">Framework:</span>
+          <span className="text-gray-600 font-semibold">Framework: </span>
           {model.framework}
         </p>
         <p className="text-gray-600">
