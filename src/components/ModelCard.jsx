@@ -1,8 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
+import useAxios from "../hooks/useAxios";
+import useAuth from "../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const ModelCard = ({ model, id }) => {
   //   const { name, framework, useCase, image } = model;
+  const { user } = useAuth();
+  const axiosInstance = useAxios();
+  const [rating, setRating] = useState(0);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleRating = async () => {
+    if (rating < 1 || rating > 5) return;
+    try {
+      const res = await axiosInstance.post(
+        `/models/${id}/rate`,
+        { rating },
+        {
+          headers: {
+            authorization: `Bearer ${user?.accessToken}`,
+          },
+        },
+      );
+      toast.success(
+        `Rating submitted! New average: ${res.data.averageRating.toFixed(1)}`,
+      );
+      setSubmitted(true);
+    } catch (err) {
+      console.log(err);
+      toast.error("Error submitting rating!");
+    }
+  };
   return (
     <div className="card bg-base-100 w-96 shadow-md rounded-xl">
       <figure className="h-52 overflow-hidden">
@@ -30,6 +59,32 @@ const ModelCard = ({ model, id }) => {
           </Link>
         </div>
       </div>
+      {/* Rating UI */}
+      {user && !submitted && (
+        <div className="flex justify-between items-center px-6 pb-4">
+          <select
+            value={rating}
+            onChange={(e) => setRating(Number(e.target.value))}
+            className="select select-bordered rounded-lg text-primary font-bold border-[#237c83] w-1/2"
+          >
+            <option value={0}>Rate this model</option>
+            <option value={1}>1 ⭐</option>
+            <option value={2}>2 ⭐</option>
+            <option value={3}>3 ⭐</option>
+            <option value={4}>4 ⭐</option>
+            <option value={5}>5 ⭐</option>
+          </select>
+          <button
+            onClick={handleRating}
+            className="btn btn-gradient w-1/2 mt-1"
+          >
+            Submit Rating
+          </button>
+        </div>
+      )}
+      {submitted && (
+        <p className="text-blue-900 mt-1 text-center">Thank you for rating!</p>
+      )}
     </div>
   );
 };

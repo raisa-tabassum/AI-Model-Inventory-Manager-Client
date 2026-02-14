@@ -15,13 +15,16 @@ const ModelDetails = () => {
   const axiosInstance = useAxios();
   useEffect(() => {
     axiosInstance
-      .get(`/models/${id}`)
+      .get(`/models/${id}`,{
+        headers: {
+          authorization: `Bearer ${user.accessToken}`
+        }
+      })
       .then((res) => {
         setModel(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setLoading(false);
       });
   }, [id, axiosInstance, refetch]);
@@ -34,7 +37,7 @@ const ModelDetails = () => {
   const handlePurchase = async () => {
     try {
       const purchaseData = {
-        id: model._id,
+        // id: model._id,
         name: model.name,
         framework: model.framework,
         image: model.image,

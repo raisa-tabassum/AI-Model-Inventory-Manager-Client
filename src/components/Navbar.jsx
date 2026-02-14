@@ -14,12 +14,9 @@ const Navbar = () => {
   const handleTheme = (checked) => {
     setTheme(checked ? "dark" : "light");
   };
-
   const { user, signOutUser } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-
   const handleSignOut = () => {
     signOutUser().then().catch();
   };

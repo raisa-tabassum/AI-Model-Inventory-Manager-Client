@@ -55,10 +55,10 @@ const AllModels = () => {
         Explore AI models
       </p>
 
-      <div className="flex flex-col md:flex-row-reverse justify-between items-center gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-center gap-4">
         {/* Search */}
         <form onSubmit={handleSearch} className="flex gap-2 justify-center">
-          <label className="input flex items-center border-[#40b9c2]">
+          <label className="input flex flex-row-reverse items-center border-[#40b9c2]">
             <svg
               className="h-[1em] opacity-50 mr-2"
               xmlns="http://www.w3.org/2000/svg"
@@ -81,7 +81,6 @@ const AllModels = () => {
             {loading ? "Searching..." : "Search"}
           </button>
         </form>
-
         {/* Filter */}
         <div className="my-6 flex items-center gap-4 justify-center">
           <label className="font-semibold text-primary text-lg sm:text-xl md:text-2xl">
@@ -100,7 +99,6 @@ const AllModels = () => {
           </select>
         </div>
       </div>
-
       {/* Models Grid */}
       {filteredModels.length === 0 ? (
         <p className="text-center text-gray-500 mt-10">No models found.</p>
