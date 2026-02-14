@@ -37,7 +37,7 @@ const ModelDetails = () => {
         name: model.name,
         description: model.description,
         framework: model.framework,
-        createdBy: user.email,
+        purchasedBy: user.email,
         createdAt: new Date().toLocaleDateString(),
       };
 

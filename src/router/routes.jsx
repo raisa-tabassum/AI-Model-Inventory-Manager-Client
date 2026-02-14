@@ -3,12 +3,13 @@ import MainLayout from "../layout/MainLayout";
 import Home from "../Pages/Home/Home";
 import AllModels from "../Pages/AllModels/AllModels";
 import AddModels from "../Pages/AddModels/AddModels";
-import Profile from "../Pages/Profile/Profile";
 import ModelDetails from "../Pages/ModelDetails/ModelDetails";
 import Login from "../Auth/Login/Login";
 import Register from "../Auth/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 import UpdateModel from "../Pages/UpdateModel/UpdateModel";
+import MyPurchases from "../Pages/MyPurchases/MyPurchases";
+import MyModels from "../Pages/MyModels/MyModels";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,14 @@ export const router = createBrowserRouter([
             <ModelDetails />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/my-models",
+        element: <MyModels />,
+      },
+      {
+        path: "/purchases",
+        element: <MyPurchases />,
       },
       {
         path: "/update-model/:id",

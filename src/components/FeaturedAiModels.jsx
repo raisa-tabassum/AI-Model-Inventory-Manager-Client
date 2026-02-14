@@ -28,7 +28,10 @@ const FeaturedAiModels = () => {
       </h2>
       <div className="grid place-items-center gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mt-10">
         {models.map((model) => (
-          <div className="card w-full h-[200px] bg-base-100 py-3 rounded-xl transition-all hover:-translate-y-1 hover:shadow-2xl">
+          <div
+            key={model._id}
+            className="card w-full h-[200px] bg-base-100 py-3 rounded-xl transition-all hover:-translate-y-1 hover:shadow-2xl"
+          >
             <div className="card-body text-center">
               <h2 className="text-2xl font-bold text-secondary">
                 {model.name}
