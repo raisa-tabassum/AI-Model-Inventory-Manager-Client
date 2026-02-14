@@ -34,9 +34,12 @@ const ModelDetails = () => {
   const handlePurchase = async () => {
     try {
       const purchaseData = {
+        id: model._id,
         name: model.name,
-        description: model.description,
         framework: model.framework,
+        image: model.image,
+        useCase: model.useCase,
+        createdBy: model.createdBy,
         purchasedBy: user.email,
         createdAt: new Date().toLocaleDateString(),
       };
