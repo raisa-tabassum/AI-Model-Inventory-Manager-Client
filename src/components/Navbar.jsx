@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router";
 import logo from "../assets/aim-inventory.png";
 import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  useEffect(() => {
+    const html = document.querySelector("html");
+    html.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const handleTheme = (checked) => {
+    setTheme(checked ? "dark" : "light");
+  };
+
   const { user, signOutUser } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -104,6 +115,12 @@ const Navbar = () => {
                   {user.displayName}
                 </li>
                 <li className="text-gray-500 text-sm truncate">{user.email}</li>
+                <input
+                  onChange={(e) => handleTheme(e.target.checked)}
+                  type="checkbox"
+                  defaultChecked={localStorage.getItem("theme") === "dark"}
+                  className="toggle"
+                />
                 <li>
                   <Link
                     to="/my-models"

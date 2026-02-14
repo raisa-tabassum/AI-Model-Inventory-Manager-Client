@@ -4,6 +4,8 @@
     light --default,
     dark --prefersdark;
 }
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 
 .btn-gradient {
   background: linear-gradient(135deg, #267a80, #40b9c2);
