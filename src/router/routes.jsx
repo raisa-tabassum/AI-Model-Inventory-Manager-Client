@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import UpdateModel from "../Pages/UpdateModel/UpdateModel";
 import MyPurchases from "../Pages/MyPurchases/MyPurchases";
 import MyModels from "../Pages/MyModels/MyModels";
+import Error from "../Pages/Error/Error";
 
 export const router = createBrowserRouter([
   {
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "/update-model/:id",
         element: <UpdateModel />,
+      },
+      {
+        path: "*",
+        element: <Error />,
       },
     ],
   },
