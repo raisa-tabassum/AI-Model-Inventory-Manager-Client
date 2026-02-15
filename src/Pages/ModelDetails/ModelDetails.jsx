@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import useAxios from "../../hooks/useAxios";
 import { Link, useNavigate, useParams } from "react-router";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const ModelDetails = () => {
   const { user } = useAuth();
@@ -12,14 +12,10 @@ const ModelDetails = () => {
   const [model, setModel] = useState({});
   const [loading, setLoading] = useState(true);
   const [refetch, setRefetch] = useState(false);
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   useEffect(() => {
-    axiosInstance
-      .get(`/models/${id}`,{
-        headers: {
-          authorization: `Bearer ${user.accessToken}`
-        }
-      })
+    axiosSecure
+      .get(`/models/${id}`)
       .then((res) => {
         setModel(res.data);
         setLoading(false);
@@ -27,7 +23,7 @@ const ModelDetails = () => {
       .catch((err) => {
         setLoading(false);
       });
-  }, [id, axiosInstance, refetch]);
+  }, [id, axiosSecure, refetch]);
 
   const isCreator = user?.email === model?.createdBy;
 
@@ -37,7 +33,6 @@ const ModelDetails = () => {
   const handlePurchase = async () => {
     try {
       const purchaseData = {
-        // id: model._id,
         name: model.name,
         framework: model.framework,
         image: model.image,
@@ -47,11 +42,7 @@ const ModelDetails = () => {
         createdAt: new Date().toLocaleDateString(),
       };
 
-      await axiosInstance.post(`/purchase/${model._id}`, purchaseData, {
-        headers: {
-          authorization: `Bearer ${user.accessToken}`,
-        },
-      });
+      await axiosSecure.post(`/purchase/${model._id}`, purchaseData);
       toast.success("Successfully Purchased!");
       setModel((prev) => ({
         ...prev,
@@ -60,17 +51,13 @@ const ModelDetails = () => {
 
       setRefetch(!refetch);
     } catch {
-      toast.error("Purchase Failed!");
+      toast.error("Already Purchased!");
     }
   };
 
   const handleDelete = async () => {
     try {
-      await axiosInstance.delete(`/models/${model._id}`, {
-        headers: {
-          authorization: `Bearer ${user.accessToken}`,
-        },
-      });
+      await axiosSecure.delete(`/models/${model._id}`);
       toast.success("Model Deleted Successfully!");
       navigate("/models");
     } catch {

@@ -2,6 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
   const { signInWithGoogle, createUser } = useAuth();
@@ -22,16 +23,20 @@ const Register = () => {
       return;
     }
 
-    createUser(email, password)
-      .then(() => {
-        toast.success("Account Created Successfully");
-        navigate("/");
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
-
-    console.log(displayName, photoURL, email, password);
+    createUser(email, password).then((result) => {
+      const user = result.user;
+      // Update profile when creating user
+      updateProfile(user, { displayName, photoURL })
+        .then(() => {
+          console.log("Profile updated:", user);
+          toast.success("Account Created Successfully");
+          navigate("/");
+        })
+        .catch((err) => {
+          toast.error("Profile update error:", err);
+        });
+      console.log(displayName, photoURL, email, password);
+    });
   };
   const handleGoogleSignIn = () => {
     signInWithGoogle()
@@ -124,7 +129,7 @@ const Register = () => {
                 <p className="text-center">
                   Don't have an Account?{"  "}
                   <Link
-                    to={"/auth/login"}
+                    to={"/login"}
                     className="text-primary font-semibold hover:underline"
                   >
                     Login

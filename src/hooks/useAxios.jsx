@@ -1,9 +1,8 @@
 import axios from "axios";
-import React from "react";
 
 const useAxios = () => {
   const axiosInstance = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://ai-model-inventory-server-peach.vercel.app/",
   });
   return axiosInstance;
 };

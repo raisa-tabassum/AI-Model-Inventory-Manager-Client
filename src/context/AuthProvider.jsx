@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import {
   createUserWithEmailAndPassword,
@@ -36,15 +36,18 @@ const AuthProvider = ({ children }) => {
     return signInWithPopup(auth, googleProvider);
   };
 
-  const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-    // console.log("current user", currentUser);
-    setLoading(false);
+  // useEffect(() => {
 
-    return () => {
-      unsubscribe();
-    };
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+      // console.log("current user", currentUser);
+    });
+
+    // clean-up function
+    return () => unsubscribe();
+  }, []);
 
   const authInfo = {
     createUser,

@@ -1,23 +1,22 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import useAxios from "../../hooks/useAxios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { Link } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyModels = () => {
   const { user } = useAuth();
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) return;
-    axiosInstance
-      .get(`/my-models?email=${user.email}`, {
-        headers: {
-          authorization: `Bearer ${user.accessToken}`,
-        },
-      })
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+    axiosSecure
+      .get(`/my-models?email=${user.email}`)
       .then((res) => {
         setModels(res.data);
         setLoading(false);
@@ -26,7 +25,7 @@ const MyModels = () => {
         console.error(err);
         setLoading(false);
       });
-  }, [user, axiosInstance]);
+  }, [user, axiosSecure]);
 
   if (loading) return <LoadingSpinner />;
 
@@ -36,7 +35,9 @@ const MyModels = () => {
         My Models
       </h1>
       {models.length === 0 ? (
-        <p className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 font-semibold">You haven't added any models yet.</p>
+        <p className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl text-gray-600 font-semibold">
+          You haven't added any models yet.
+        </p>
       ) : (
         <div className="grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {models.map((model) => (

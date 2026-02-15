@@ -26,15 +26,19 @@ export const router = createBrowserRouter([
         element: <AllModels />,
       },
       {
-        path: "/add-models",
-        element: <AddModels />,
+        path: "/add-model",
+        element: (
+          <PrivateRoute>
+            <AddModels />,
+          </PrivateRoute>
+        ),
       },
       {
-        path: "/auth/login",
+        path: "/login",
         element: <Login />,
       },
       {
-        path: "/auth/register",
+        path: "/register",
         element: <Register />,
       },
       {
@@ -47,15 +51,27 @@ export const router = createBrowserRouter([
       },
       {
         path: "/my-models",
-        element: <MyModels />,
+        element: (
+          <PrivateRoute>
+            <MyModels />,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/purchases",
-        element: <MyPurchases />,
+        element: (
+          <PrivateRoute>
+            <MyPurchases />,
+          </PrivateRoute>
+        ),
       },
       {
         path: "/update-model/:id",
-        element: <UpdateModel />,
+        element: (
+          <PrivateRoute>
+            <UpdateModel />,
+          </PrivateRoute>
+        ),
       },
       {
         path: "*",

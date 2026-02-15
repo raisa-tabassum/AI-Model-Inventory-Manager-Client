@@ -34,7 +34,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/add-models"
+          to="/add-model"
           className={({ isActive }) =>
             `text-xl font-semibold text-primary ${isActive ? "text-secondary" : ""}`
           }
@@ -152,7 +152,7 @@ const Navbar = () => {
           </div>
         ) : (
           <Link
-            to={"/auth/login"}
+            to={"/login"}
             className="btn btn-gradient px-4 py-2 text-sm md:text-base"
           >
             Login

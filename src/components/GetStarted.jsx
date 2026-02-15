@@ -21,7 +21,7 @@ const GetStarted = () => {
             Get Started
           </Link>
           <Link
-            // to={'auth/login'}
+            // to={'/login'}
             className="btn btn-outline border-white text-white px-8 hover:bg-white hover:text-primary"
           >
             Login

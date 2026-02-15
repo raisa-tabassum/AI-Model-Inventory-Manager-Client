@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
-import useAxios from "../../hooks/useAxios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AddModels = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +26,7 @@ const AddModels = () => {
       createdAt: new Date(),
     };
 
-    await axiosInstance
+    await axiosSecure
       .post("/models", modelData)
       .then(() => {
         toast.success("AI Model added successfully");
@@ -38,7 +38,7 @@ const AddModels = () => {
         setLoading(false);
       });
   };
-  if(loading) return <LoadingSpinner></LoadingSpinner>
+  if (loading) return <LoadingSpinner></LoadingSpinner>;
   return (
     <div className="min-h-screen flex items-center justify-center my-10">
       <div className="w-full max-w-2xl bg-base-100 shadow-xl rounded-2xl p-8">
@@ -118,7 +118,7 @@ const AddModels = () => {
             disabled={loading}
             className="btn w-full text-white mt-4 btn-gradient"
           >
-            {loading ? <LoadingSpinner></LoadingSpinner> : "Add Model"}
+            {loading ? "Adding" : "Add Model"}
           </button>
         </form>
       </div>

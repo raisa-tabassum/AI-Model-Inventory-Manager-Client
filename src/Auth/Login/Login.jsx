@@ -8,7 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state || "/";
+  const from = location.state?.from?.pathname || "/";
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -23,7 +23,7 @@ const Login = () => {
         toast.error("Invalid email or password.");
       });
   };
-  
+
   const handleGoogleSignIn = () => {
     signInWithGoogle()
       .then(() => {
@@ -101,7 +101,7 @@ const Login = () => {
                 <p className="text-center">
                   Don't have an Account?{"  "}
                   <Link
-                    to={"/auth/register"}
+                    to={"/register"}
                     className="text-primary font-semibold hover:underline"
                   >
                     Register

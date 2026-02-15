@@ -83,7 +83,9 @@ const ModelCard = ({ model, id }) => {
         </div>
       )}
       {submitted && (
-        <p className="text-blue-900 mt-1 text-center">Thank you for rating!</p>
+        <p className="text-primary text-3xl mb-6 font-semibold text-center">
+          Thank you for rating!
+        </p>
       )}
     </div>
   );

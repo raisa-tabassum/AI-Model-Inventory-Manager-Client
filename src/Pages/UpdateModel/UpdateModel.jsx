@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
-import useAxios from "../../hooks/useAxios";
 import toast from "react-hot-toast";
-import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const UpdateModel = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const axiosInstance = useAxios();
-  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const [model, setModel] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    axiosInstance
+    axiosSecure
       .get(`/models/${id}`)
       .then((res) => {
         setModel(res.data);
@@ -26,7 +24,7 @@ const UpdateModel = () => {
         setLoading(false);
         toast.error("Failed to fetch model");
       });
-  }, [id, axiosInstance]);
+  }, [id, axiosSecure]);
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -42,11 +40,7 @@ const UpdateModel = () => {
     };
 
     try {
-      await axiosInstance.put(`/models/${id}`, updatedData, {
-        headers: {
-          authorization: `Bearer ${user.accessToken}`,
-        },
-      });
+      await axiosSecure.put(`/models/${id}`, updatedData);
       toast.success("Model updated successfully!");
       navigate(`/models/${id}`);
     } catch (error) {
@@ -131,7 +125,7 @@ const UpdateModel = () => {
             disabled={updating}
             className="btn w-full text-white mt-4 btn-gradient"
           >
-            {updating ? <LoadingSpinner /> : "Update Model"}
+            {updating ? "Updating" : "Update Model"}
           </button>
         </form>
       </div>

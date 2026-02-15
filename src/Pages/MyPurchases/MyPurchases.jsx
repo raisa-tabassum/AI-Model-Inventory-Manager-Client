@@ -1,23 +1,19 @@
 import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
-import useAxios from "../../hooks/useAxios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { Link } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyPurchases = () => {
   const { user } = useAuth();
-  const axiosInstance = useAxios();
+  const axiosSecure = useAxiosSecure();
   const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!user) return;
-    axiosInstance
-      .get("/purchases", {
-        headers: {
-          authorization: `Bearer ${user.accessToken}`,
-        },
-      })
+    axiosSecure
+      .get("/purchases")
       .then((res) => {
         setModels(res.data);
         setLoading(false);
@@ -26,7 +22,7 @@ const MyPurchases = () => {
         console.error(err);
         setLoading(false);
       });
-  }, [user, axiosInstance]);
+  }, [user, axiosSecure]);
 
   if (loading) return <LoadingSpinner />;
 
@@ -82,7 +78,7 @@ const MyPurchases = () => {
 
                 <div>
                   <Link
-                    to={`/models/${model._id}`}
+                    to={`/models/${model.modelId}`}
                     className="btn btn-gradient w-full mt-1"
                   >
                     View Details
